@@ -107,4 +107,4 @@ alias -s bz2='tar -xjvf'
 
 bindkey "[D" backward-word
 bindkey "[C" forward-word
-source /Users/xueyo/thingspace/go/src/stash.verizon.com/npdthing/user/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
