@@ -63,6 +63,7 @@ plugins=(
   autojump
   zsh-autosuggestions
   zsh-syntax-highlighting
+  ag
 )
 [[ -s ~/.autojump/etc/profile.d/autojump.zsh ]] && . ~/.autojump/etc/profile.d/autojump.zsh
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/TeX/texbin"
