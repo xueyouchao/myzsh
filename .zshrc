@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/xueyo/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -68,7 +68,6 @@ plugins=(
 [[ -s ~/.autojump/etc/profile.d/autojump.zsh ]] && . ~/.autojump/etc/profile.d/autojump.zsh
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/TeX/texbin"
 source $ZSH/oh-my-zsh.sh
-source ~/.profile
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -108,4 +107,3 @@ alias -s bz2='tar -xjvf'
 
 bindkey "[D" backward-word
 bindkey "[C" forward-word
-source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
