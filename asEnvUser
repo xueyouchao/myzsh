@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/sh
 
 ## Create(if needed) this user and run command as the user:
 # ENV UNAME="emacser" \
