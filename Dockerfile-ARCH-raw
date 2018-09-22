@@ -1,0 +1,60 @@
+FROM base/archlinux
+MAINTAINER youchao.xue <xueyouchao@gmail.com>
+
+COPY asEnvUser /usr/local/sbin/
+
+# popupate mirrorlist to enable full upgrade 
+RUN pacman -Syyu --noconfirm
+RUN pacman-db-upgrade
+#RUN curl -o /etc/pacman.d/mirrorlist "http://www.archlinux.org/mirrorlist/?country=US&protocol=http&ip_version=6&use_mirror_status=on" &&   sed -i 's/^#//' /etc/pacman.d/mirrorlist
+#RUN curl -o /etc/pacman.d/mirrorlist "http://www.archlinux.org/mirrorlist/?country=all&protocol=http&ip_version=6&use_mirror_status=on" &&   sed -i 's/^#//' /etc/pacman.d/mirrorlist
+#RUN cat /etc/pacman.d/mirrorlist
+
+# update to latest available build 
+#RUN pacman -Syu --noprogressbar --noconfirm
+#RUN pacman -Syyu --noconfirm
+RUN pacman -Ss --noconfirm vim curl git go \
+		zsh zsh-autosuggestions zsh-syntax-highlighting vim-youcompleteme-git; yes \
+#| pacman -Scc \
+	&& git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
+		&& cd /tmp/su-exec \
+		&& make \
+		&& chmod 770 su-exec \
+		&& mv ./su-exec /usr/local/sbin/ \
+		&& chown root /usr/local/sbin/asEnvUser \
+		&& chmod 700 /usr/local/sbin/asEnvUser 
+ENV UNAME="zsher" \
+	GNAME="zsh" \
+	UHOME="/home/zhser" \
+	UID="1000" \
+	GID="1000" \
+	WORKSPACE="/mnt/workspace" \
+	SHELL="/bin/zsh" \
+	GOPATH="/go" \
+	PATH="/go/bin:/user/local/go/bin:$PATH"
+
+WORKDIR "${WORKSPACE}"
+RUN asEnvUser
+
+
+#overwrite default .zshrc
+COPY .zshrc ${UHOME}
+
+USER zsher
+
+#oh-my-zsh install
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" 
+
+#RUN sudo pacman-key --refresh--keys && gpg --keyserver pgp.mit.edu --recv-keys C52048C0C0748FEE227D47A2702353E0F7E48EDB \
+#	&& pacman -Sy --noconfirm libtinfo-5; yes | pacman -Scc
+#RUN git clone --recursive https://github.com/Valloric/YouCompleteMe.git ~/.vim/bundles/YouCompleteMe \
+#	&& cd ~/.vim/bundles/YouCompleteMe \
+#	&&	git submodule update --init --recursive \
+#	&& echo build.py -h \
+#	&& python3 ./install.py --clang-completer --gocode-completer
+
+#setup awesome vim 
+RUN git clone https://github.com/skywind3000/vim-init.git ${UHOME}/.vim/vim-init 
+COPY init-plugins.vim ${UHOME}/.vim/vim-init/init
+RUN	 echo "source ${UHOME}/.vim/vim-init/init.vim" >> ~/.vimrc 
+CMD ["zsh"]
