@@ -34,7 +34,8 @@ ENV UNAME="zsher" \
 	WORKSPACE="/home/zsher/workspace" \
 	SHELL="/bin/zsh" \
 	GOPATH="/home/zsher/go" \
-	PATH="/home/zsher/go/bin:$PATH"
+	PATH="/home/zsher/go/bin:$PATH" \
+	GOROOT="/usr/lib/go"
 
 WORKDIR "${WORKSPACE}"
 RUN asEnvUser
@@ -56,7 +57,9 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh
 #Youcompleteme install
 RUN git clone --recursive https://github.com/Valloric/YouCompleteMe.git ~/.vim/bundles/YouCompleteMe \
 		&& cd ~/.vim/bundles/YouCompleteMe && git submodule update --init --recursive \
-		&& sudo python3 ./install.py --go-completer --system-libclang --clang-completer \
+#fix YCM golang support temporary broken
+		&& cd ~/.vim/bundles/YouCompleteMe/third_party/ycmd && git checkout master && git submodule update --init --recursive \
+		&& cd ~/.vim/bundles/YouCompleteMe && sudo python3 ./install.py --go-completer --system-libclang --clang-completer \
 	&& cp ~/.vim/bundles/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py ~/.vim
 
 #	&& cd ~/.vim/bundles/YouCompleteMe \
@@ -68,8 +71,13 @@ RUN git clone --recursive https://github.com/Valloric/YouCompleteMe.git ~/.vim/b
 #		-DUSE_SYSTEM_BOOST=OFF -DUSE_SYSTEM_LIBCLANG=ON . ~/.vim/bundles/YouCompleteMe/third_party/ycmd/cpp \
 #	&& cmake --build . --target ycm_core --config Release
 
+RUN cd ~/ && mkdir go && cd go && mkdir bin && mkdir src
+
 #setup awesome vim 
 RUN git clone https://github.com/skywind3000/vim-init.git ${UHOME}/.vim/vim-init
+COPY init-plugins.vim ${UHOME}/.vim/vim-init/init	
+#fix windows line ending issue	
+RUN sed -i -e 's/\r$//' ${UHOME}/.vim/vim-init/init/init-plugins.vim 
 RUN	 echo -e "let g:ycm_global_ycm_extra_conf='~/.vim/.ycm_extra_conf.py'\nsource ${UHOME}/.vim/vim-init/init.vim" >> ~/.vimrc 
 
 COPY cpptest ./cpptest/
