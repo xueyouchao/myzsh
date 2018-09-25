@@ -28,13 +28,13 @@ RUN	 git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
 
 ENV UNAME="zsher" \
 	GNAME="zsh" \
-	UHOME="/home/zhser" \
+	UHOME="/home/zsher" \
 	UID="1000" \
 	GID="1000" \
-	WORKSPACE="/mnt/workspace" \
+	WORKSPACE="/home/zsher/workspace" \
 	SHELL="/bin/zsh" \
-	GOPATH="/go" \
-	PATH="/go/bin:/user/local/go/bin:$PATH"
+	GOPATH="/home/zsher/go" \
+	PATH="/home/zsher/go/bin:$PATH"
 
 WORKDIR "${WORKSPACE}"
 RUN asEnvUser
@@ -56,7 +56,7 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh
 #Youcompleteme install
 RUN git clone --recursive https://github.com/Valloric/YouCompleteMe.git ~/.vim/bundles/YouCompleteMe \
 		&& cd ~/.vim/bundles/YouCompleteMe && git submodule update --init --recursive \
-		&& sudo python3 ./install.py --go-completer --java-completer --clang-completer --system-libclang \
+		&& sudo python3 ./install.py --go-completer --system-libclang --clang-completer \
 	&& cp ~/.vim/bundles/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py ~/.vim
 
 #	&& cd ~/.vim/bundles/YouCompleteMe \
