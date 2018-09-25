@@ -55,7 +55,9 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh
 
 #Youcompleteme install
 RUN git clone --recursive https://github.com/Valloric/YouCompleteMe.git ~/.vim/bundles/YouCompleteMe \
-		&& cd ~/.vim/bundles/YouCompleteMe && sudo python3 ./install.py --clang-completer --system-libclang --gocode-completer 
+		&& cd ~/.vim/bundles/YouCompleteMe && git submodule update --init --recursive \
+		&& sudo python3 ./install.py --go-completer --java-completer --clang-completer --system-libclang \
+	&& cp ~/.vim/bundles/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py ~/.vim
 
 #	&& cd ~/.vim/bundles/YouCompleteMe \
 #	&&	git submodule update --init --recursive \
@@ -68,9 +70,6 @@ RUN git clone --recursive https://github.com/Valloric/YouCompleteMe.git ~/.vim/b
 
 #setup awesome vim 
 RUN git clone https://github.com/skywind3000/vim-init.git ${UHOME}/.vim/vim-init
-COPY init-plugins.vim ${UHOME}/.vim/vim-init/init
-#fix windows line ending issue
-RUN sed -i -e 's/\r$//' ${UHOME}/.vim/vim-init/init/init-plugins.vim 
 RUN	 echo -e "let g:ycm_global_ycm_extra_conf='~/.vim/.ycm_extra_conf.py'\nsource ${UHOME}/.vim/vim-init/init.vim" >> ~/.vimrc 
 
 COPY cpptest ./cpptest/
