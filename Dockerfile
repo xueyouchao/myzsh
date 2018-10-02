@@ -70,5 +70,11 @@ RUN sed -i -e 's/\r$//' ${UHOME}/.vim/vim-init/init/init-plugins.vim
 RUN	 echo -e "let g:ycm_global_ycm_extra_conf='~/.vim/.ycm_extra_conf.py'\nsource ${UHOME}/.vim/vim-init/init.vim" >> ~/.vimrc 
 
 COPY cpptest ./cpptest/
+
+#java section
+RUN sudo pacman -Sy --noconfirm jdk10-openjdk gradle 
+ENV JAVA_HOME="/usr/lib/jvm/java-10-openjdk"
+
+#delete cache files
 RUN sudo pacman -Scc --noconfirm
 CMD ["zsh"]
