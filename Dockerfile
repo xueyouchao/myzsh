@@ -72,8 +72,8 @@ RUN	 echo -e "let g:ycm_global_ycm_extra_conf='~/.vim/.ycm_extra_conf.py'\nsourc
 COPY cpptest ./cpptest/
 
 #java section
-RUN sudo pacman -Sy --noconfirm jdk10-openjdk gradle 
-ENV JAVA_HOME="/usr/lib/jvm/java-10-openjdk"
+#RUN sudo pacman -Sy --noconfirm jdk10-openjdk gradle 
+#ENV JAVA_HOME="/usr/lib/jvm/java-10-openjdk"
 
 #delete cache files
 RUN sudo pacman -Scc --noconfirm
