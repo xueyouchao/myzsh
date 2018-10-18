@@ -1,4 +1,4 @@
-// docker container based on Arch linux, zsh, compiled YouCompleteMe(c/c++, java, golang support turn on), JDK,gradle installed for java
+// docker container based on Arch linux, zsh, compiled YouCompleteMe(c/c++, golang support turned on)
 1. docker build -t myzsh .
 2. docker run -ti --rm --name myzshcontainer -v ~/workspace:/home/zsher/workspace myzsh:latest
 3. inside container, launch vim and run :PlugInstall
