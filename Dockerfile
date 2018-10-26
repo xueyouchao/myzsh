@@ -39,7 +39,7 @@ USER zsher
 
 #install yay for aur packages
 RUN git clone https://aur.archlinux.org/yay.git ${WORKSPACE}/yay && pwd && ls -al && cd yay && makepkg --noconfirm --skippgpcheck -si  \
-	&& yay -S --noconfirm direnv oh-my-zsh-git \
+	&& yay -S --noconfirm direnv oh-my-zsh-git autojump \
 	&& rm -rf yay
 
 #Youcompleteme install
