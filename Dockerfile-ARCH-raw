@@ -1,4 +1,4 @@
-FROM base/archlinux
+FROM archlinux/base
 MAINTAINER youchao.xue <xueyouchao@gmail.com>
 
 COPY asEnvUser /usr/local/sbin/
