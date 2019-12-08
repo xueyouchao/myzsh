@@ -31,9 +31,6 @@ ENV UNAME="zsher" \
 WORKDIR "${WORKSPACE}"
 RUN asEnvUser
 
-#overwrite default .zshrc
-COPY .zshrc ${UHOME}
-RUN sed -i -e 's/\r$//' ${UHOME}/.zshrc
 USER zsher
 
 #install yay for aur packages
@@ -45,6 +42,9 @@ RUN sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/t
 RUN sudo git clone https://github.com/zsh-users/zsh-autosuggestions  ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 RUN sudo git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
+#overwrite default .zshrc
+COPY .zshrc ${UHOME}
+RUN sed -i -e 's/\r$//' ${UHOME}/.zshrc
 
 #Youcompleteme install
 RUN git clone --recursive https://github.com/Valloric/YouCompleteMe.git ~/.vim/bundles/YouCompleteMe \
