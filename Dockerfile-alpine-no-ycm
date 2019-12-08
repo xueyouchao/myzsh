@@ -3,8 +3,7 @@ MAINTAINER youchao.xue <xueyouchao@gmail.com>
 
 COPY asEnvUser /usr/local/sbin/
 
-RUN apk add --no-cache sudo vim tar wget curl git build-base python3-dev cmake ncurses5-libs clang-libs \
-		zsh zsh-autosuggestions zsh-syntax-highlighting \
+RUN apk add --no-cache sudo vim tar wget curl git build-base python3-dev cmake ncurses5-libs zsh clang-libs \
 	&& git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
 		&& cd /tmp/su-exec \
 		&& make \
@@ -30,7 +29,9 @@ COPY .zshrc ${UHOME}
 USER zsher
 
 #oh-my-zsh install
-RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" 
+RUN sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+RUN sudo git clone https://github.com/zsh-users/zsh-autosuggestions  ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+RUN sudo git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
 RUN git clone --recursive https://github.com/Valloric/YouCompleteMe.git ~/.vim/bundles/YouCompleteMe \
 	&& cd ~/.vim/bundles/YouCompleteMe \

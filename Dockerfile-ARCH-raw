@@ -1,4 +1,4 @@
-FROM archlinux/base
+FROM archlinux
 MAINTAINER youchao.xue <xueyouchao@gmail.com>
 
 COPY asEnvUser /usr/local/sbin/
@@ -14,7 +14,7 @@ RUN pacman-db-upgrade
 #RUN pacman -Syu --noprogressbar --noconfirm
 #RUN pacman -Syyu --noconfirm
 RUN pacman -Ss --noconfirm vim curl git go \
-		zsh zsh-autosuggestions zsh-syntax-highlighting vim-youcompleteme-git; yes \
+		zsh vim-youcompleteme-git; yes \
 #| pacman -Scc \
 	&& git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
 		&& cd /tmp/su-exec \
@@ -43,7 +43,9 @@ COPY .zshrc ${UHOME}
 USER zsher
 
 #oh-my-zsh install
-RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" 
+RUN sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+RUN sudo git clone https://github.com/zsh-users/zsh-autosuggestions  ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+RUN sudo git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
 #RUN sudo pacman-key --refresh--keys && gpg --keyserver pgp.mit.edu --recv-keys C52048C0C0748FEE227D47A2702353E0F7E48EDB \
 #	&& pacman -Sy --noconfirm libtinfo-5; yes | pacman -Scc

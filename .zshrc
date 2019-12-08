@@ -107,3 +107,6 @@ alias -s bz2='tar -xjvf'
 
 bindkey "[D" backward-word
 bindkey "[C" forward-word
+
+
+eval "$(direnv hook zsh)"

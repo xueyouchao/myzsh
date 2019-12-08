@@ -1,13 +1,12 @@
-FROM archlinux/base
+FROM archlinux
 MAINTAINER youchao.xue <xueyouchao@gmail.com>
 
 COPY asEnvUser /usr/local/sbin/
 #fix windows line ending issue
 RUN sed -i -e 's/\r$//' /usr/local/sbin/asEnvUser
 
-# update to latest available build 
-RUN pacman -Syy && pacman -Syu --noconfirm
-RUN pacman -S --noconfirm wget patch vim git make fakeroot sudo  python3 cmake go zsh zsh-autosuggestions zsh-syntax-highlighting the_silver_searcher clang jq 
+RUN pacman -Syu --noconfirm wget which patch vim fakeroot sudo awk git make cmake clang python3 go zsh the_silver_searcher jq
+
 
 # add a new user and setup GOPATH, GOROOT
 RUN	 git clone https://github.com/ncopa/su-exec.git /tmp/su-exec \
@@ -38,9 +37,14 @@ RUN sed -i -e 's/\r$//' ${UHOME}/.zshrc
 USER zsher
 
 #install yay for aur packages
-RUN git clone https://aur.archlinux.org/yay.git ${WORKSPACE}/yay && pwd && ls -al && cd yay && makepkg --noconfirm --skippgpcheck -si  \
-	&& yay -S --noconfirm direnv oh-my-zsh-git autojump \
+RUN git clone https://aur.archlinux.org/yay.git ${WORKSPACE}/yay && cd yay && makepkg --noconfirm --skippgpcheck -si  \
+	&& yay -S --noconfirm direnv autojump \
 	&& rm -rf yay
+
+RUN sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+RUN sudo git clone https://github.com/zsh-users/zsh-autosuggestions  ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+RUN sudo git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+
 
 #Youcompleteme install
 RUN git clone --recursive https://github.com/Valloric/YouCompleteMe.git ~/.vim/bundles/YouCompleteMe \
@@ -76,5 +80,9 @@ COPY cpptest ./cpptest/
 #ENV JAVA_HOME="/usr/lib/jvm/java-10-openjdk"
 
 #delete cache files
-RUN sudo pacman -Scc --noconfirm
+#RUN sudo pacman -Scc --noconfirm
+
+#for generating my resume
+#RUN sudo pacman -S --noconfirm pandoc texlive-core
+
 CMD ["zsh"]
