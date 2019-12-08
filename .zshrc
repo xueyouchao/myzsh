@@ -73,7 +73,6 @@ plugins=(
   autojump
   zsh-autosuggestions
   zsh-syntax-highlighting
-  ag
 )
 [[ -s ~/.autojump/etc/profile.d/autojump.zsh ]] && . ~/.autojump/etc/profile.d/autojump.zsh
 source $ZSH/oh-my-zsh.sh
