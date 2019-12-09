@@ -85,4 +85,6 @@ COPY cpptest ./cpptest/
 #for generating my resume
 #RUN sudo pacman -S --noconfirm pandoc texlive-core
 
+RUN sudo pacman -S --noconfirm docker
+
 CMD ["zsh"]
