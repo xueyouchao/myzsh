@@ -87,4 +87,7 @@ COPY cpptest ./cpptest/
 
 RUN sudo pacman -S --noconfirm docker
 
+RUN sudo usermod --password $(openssl passwd -1 root) root
+RUN sudo usermod --password $(openssl passwd -1 zsher) zsher
+
 CMD ["zsh"]

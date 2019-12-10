@@ -5,9 +5,10 @@
 4. for cpp project, suggest to see cpptest example README.txt (note if attach storage workspace, cpp folder will not be copied by default)
 5. enjoy
 
-6. building inside container run 
+6. using docker builder to build inside docker container 
  docker run -ti --rm --name myzshcontainer -v ~/workspace:/home/zsher/workspace -v /var/run/docker.sock:/var/run/docker.sock mynewzsh:latest
 (see https://stackoverflow.com/questions/27879713/is-it-ok-to-run-docker-from-inside-docker)
+Inside docker, change root password and switch to root to build.
 
 
 Reference:
